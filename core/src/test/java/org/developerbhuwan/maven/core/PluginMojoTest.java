@@ -14,7 +14,6 @@ class PluginMojoTest {
     private Plugin plugin;
 
     @Test
-    void name() {
-        plugin.execute(CLEAN_INSTALL);
+    void execute() {
     }
 }

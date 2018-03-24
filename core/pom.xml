@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>maven-plugin-starter-parent</artifactId>
@@ -11,21 +11,5 @@
 
     <artifactId>maven-plugin-core</artifactId>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.takari.maven.plugins</groupId>
-            <artifactId>takari-plugin-testing</artifactId>
-            <version>2.9.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-
-    <repositories>
-        <repository>
-            <id>central-maven</id>
-            <url>http://central.maven.org/maven2/</url>
-            <name>Central Repository</name>
-        </repository>
-    </repositories>
 
 </project>

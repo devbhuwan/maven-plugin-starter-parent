@@ -23,6 +23,8 @@
         <assertj.version>3.8.0</assertj.version>
         <lombok>1.16.20</lombok>
         <maven>3.5.3</maven>
+        <takari>2.9.2</takari>
+
         <git.repository.name>${project.artifactId}</git.repository.name>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
@@ -38,6 +40,12 @@
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
             <version>${maven}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.takari.maven.plugins</groupId>
+            <artifactId>takari-plugin-testing</artifactId>
+            <version>${takari}</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -68,6 +76,14 @@
         </snapshotRepository>
 
     </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>central-maven</id>
+            <url>http://central.maven.org/maven2/</url>
+            <name>Central Repository</name>
+        </repository>
+    </repositories>
 
     <developers>
         <developer>
