@@ -4,7 +4,7 @@
 
     <groupId>io.github.devbhuwan</groupId>
     <artifactId>maven-plugin-starter-parent</artifactId>
-    <version>1.0.1-SNAPSHOT</version>
+    <version>development-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Maven Plugin Starter Parent</name>
