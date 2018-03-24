@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Parameter;
 
 /**
  * @author Bhuwan Prasad Upadhyay
@@ -13,6 +14,7 @@ import org.apache.maven.plugin.MojoFailureException;
 @Setter
 public abstract class AbstractPluginMojo extends AbstractMojo {
 
+    @Parameter(defaultValue = "false")
     private boolean skip = false;
 
     @Override

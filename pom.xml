@@ -24,6 +24,7 @@
         <assertj.version>3.8.0</assertj.version>
         <lombok>1.16.20</lombok>
         <maven>3.5.3</maven>
+        <mavenPlugin>3.5.1</mavenPlugin>
         <takari>2.9.2</takari>
 
         <git.repository.name>${project.artifactId}</git.repository.name>
@@ -41,6 +42,11 @@
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-core</artifactId>
             <version>${maven}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>${mavenPlugin}</version>
         </dependency>
         <dependency>
             <groupId>io.takari.maven.plugins</groupId>
