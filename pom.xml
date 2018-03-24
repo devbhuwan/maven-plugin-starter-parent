@@ -4,7 +4,12 @@
 
     <groupId>io.github.devbhuwan</groupId>
     <artifactId>maven-plugin-starter-parent</artifactId>
-    <version>development-SNAPSHOT</version>
+    <version>1.0.0.RELEASE</version>
+
+    <modules>
+        <module>core</module>
+    </modules>
+
     <packaging>pom</packaging>
 
     <name>Maven Plugin Starter Parent</name>
@@ -17,13 +22,23 @@
         <junit.platform.version>1.1.0</junit.platform.version>
         <assertj.version>3.8.0</assertj.version>
         <lombok>1.16.20</lombok>
-
+        <maven>3.5.3</maven>
         <git.repository.name>${project.artifactId}</git.repository.name>
         <project.reporting.outputEncoding>${encoding}</project.reporting.outputEncoding>
         <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${maven}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-core</artifactId>
+            <version>${maven}</version>
+        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
