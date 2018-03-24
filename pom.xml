@@ -42,12 +42,12 @@
         <downloadUrl>http://central.maven.org/maven2</downloadUrl>
 
         <repository>
-            <id>release.repo</id>
+            <id>ossrh</id>
             <name>released artifacts</name>
             <url>${release.repo.url}</url>
         </repository>
         <snapshotRepository>
-            <id>snapshot.release.repo</id>
+            <id>ossrh</id>
             <name>snapshot released artifacts</name>
             <url>${snapshot.release.repo.url}</url>
         </snapshotRepository>
@@ -255,6 +255,11 @@
                         <arguments>-Prelease</arguments>
                     </configuration>
                 </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-gpg-plugin</artifactId>
+                    <version>1.6</version>
+                </plugin>
             </plugins>
         </pluginManagement>
 
@@ -314,8 +319,8 @@
                 </property>
             </activation>
             <properties>
-                <release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2</release.repo.url>
-                <snapshot.release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2
+                <release.repo.url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</release.repo.url>
+                <snapshot.release.repo.url>https://oss.sonatype.org/content/repositories/snapshots/
                 </snapshot.release.repo.url>
             </properties>
             <build>
