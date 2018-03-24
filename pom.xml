@@ -8,6 +8,7 @@
 
     <modules>
         <module>core</module>
+        <module>test-jupiter</module>
     </modules>
 
     <packaging>pom</packaging>
