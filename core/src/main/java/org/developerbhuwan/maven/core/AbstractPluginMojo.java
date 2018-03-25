@@ -6,6 +6,7 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
 import org.apache.maven.plugins.annotations.Parameter;
+import org.apache.maven.project.MavenProject;
 
 /**
  * @author Bhuwan Prasad Upadhyay
@@ -13,18 +14,18 @@ import org.apache.maven.plugins.annotations.Parameter;
 @Getter
 @Setter
 public abstract class AbstractPluginMojo extends AbstractMojo {
-
-    @Parameter(defaultValue = "false")
-    private boolean skip = false;
+    @Parameter(defaultValue = "${project}", readonly = true, required = true)
+    private MavenProject project;
+    @Parameter(property = "skip", defaultValue = "false")
+    private boolean skip;
 
     @Override
     public void execute() throws MojoExecutionException, MojoFailureException {
-        getLog().debug("before execute");
-        if (skip)
-            getLog().info("plugin skipped!");
-        else
-            this.doExecute();
-        getLog().debug("after execute");
+        if (this.skip) {
+            getLog().debug("skipping run as per configuration.");
+            return;
+        }
+        doExecute();
     }
 
     protected abstract void doExecute();

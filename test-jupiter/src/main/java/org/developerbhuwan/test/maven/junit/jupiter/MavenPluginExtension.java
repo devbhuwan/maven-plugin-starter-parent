@@ -13,15 +13,15 @@ public class MavenPluginExtension implements
         BeforeEachCallback, AfterEachCallback, BeforeTestExecutionCallback,
         AfterTestExecutionCallback, ParameterResolver {
 
+    private static MavenRuntimeTestContextManager runtimeManager;
+
     @Override
     public void afterAll(ExtensionContext context) throws Exception {
         getTestContextManager(context).afterTestClass();
     }
 
-    private TestContextManager getTestContextManager(@NonNull ExtensionContext context) {
-        Class<?> testClass = context.getRequiredTestClass();
-        MojoJUnitConfig config = testClass.getAnnotation(MojoJUnitConfig.class);
-        return new TestContextManager(config);
+    private MavenRuntimeTestContextManager getTestContextManager(@NonNull ExtensionContext context) {
+        return runtimeManager;
     }
 
     @Override
@@ -39,8 +39,9 @@ public class MavenPluginExtension implements
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
-
+        runtimeManager = MavenRuntimeTestContextManager.create(context);
     }
+
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
