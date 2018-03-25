@@ -14,7 +14,6 @@
     <packaging>pom</packaging>
 
     <name>Maven Plugin Starter Parent</name>
-
     <properties>
         <encoding>UTF-8</encoding>
         <java.version>1.9</java.version>
