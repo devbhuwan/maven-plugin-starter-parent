@@ -1,4 +1,4 @@
-package org.developerbhuwan.test.maven.junit.jupiter;
+package org.developerbhuwan.maven.test.junit.jupiter;
 
 import org.junit.jupiter.api.extension.ExtendWith;
 

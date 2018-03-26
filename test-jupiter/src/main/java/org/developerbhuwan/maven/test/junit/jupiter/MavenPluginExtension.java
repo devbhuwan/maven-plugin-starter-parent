@@ -1,6 +1,5 @@
-package org.developerbhuwan.test.maven.junit.jupiter;
+package org.developerbhuwan.maven.test.junit.jupiter;
 
-import lombok.NonNull;
 import org.junit.jupiter.api.extension.*;
 
 import java.lang.reflect.Method;
@@ -8,20 +7,14 @@ import java.lang.reflect.Method;
 /**
  * @author Bhuwan Prasad Upadhyay
  */
-public class MavenPluginExtension implements
+class MavenPluginExtension implements
         BeforeAllCallback, AfterAllCallback, TestInstancePostProcessor,
         BeforeEachCallback, AfterEachCallback, BeforeTestExecutionCallback,
         AfterTestExecutionCallback, ParameterResolver {
 
-    private static MavenRuntimeTestContextManager runtimeManager;
-
     @Override
     public void afterAll(ExtensionContext context) throws Exception {
-        getTestContextManager(context).afterTestClass();
-    }
-
-    private MavenRuntimeTestContextManager getTestContextManager(@NonNull ExtensionContext context) {
-        return runtimeManager;
+        ContextStore.runtimeManager.afterTestClass();
     }
 
     @Override
@@ -29,7 +22,7 @@ public class MavenPluginExtension implements
         Object testInstance = context.getRequiredTestInstance();
         Method testMethod = context.getRequiredTestMethod();
         Throwable testException = context.getExecutionException().orElse(null);
-        getTestContextManager(context).afterTestMethod(testInstance, testMethod, testException);
+        ContextStore.runtimeManager.afterTestMethod(testInstance, testMethod, testException);
     }
 
     @Override
@@ -39,13 +32,13 @@ public class MavenPluginExtension implements
 
     @Override
     public void beforeAll(ExtensionContext context) throws Exception {
-        runtimeManager = MavenRuntimeTestContextManager.create(context);
+        Class<?> testClass = context.getRequiredTestClass();
+        ContextStore.runtimeManager = MavenRuntimeTestContextManager.create(testClass);
     }
-
 
     @Override
     public void beforeEach(ExtensionContext context) throws Exception {
-
+        context.getTestInstance().ifPresent(ContextStore.runtimeManager::initializeMojoContexts);
     }
 
     @Override
@@ -66,5 +59,9 @@ public class MavenPluginExtension implements
     @Override
     public void postProcessTestInstance(Object o, ExtensionContext context) throws Exception {
 
+    }
+
+    private static class ContextStore {
+        private static volatile MavenRuntimeTestContextManager runtimeManager;
     }
 }
