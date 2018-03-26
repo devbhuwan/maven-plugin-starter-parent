@@ -13,6 +13,6 @@ class MojoJUnitConfigUnitTests {
 
     @Test
     void name() {
-        mojo.execute("install").assertErrorFreeLog();
+        mojo.execute("package").assertErrorFreeLog();
     }
 }

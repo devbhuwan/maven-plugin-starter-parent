@@ -17,7 +17,6 @@ public class Mojo {
     public ExecuteResult execute(String goal) {
         try {
             return new ExecuteResult(exec.execute(goal));
-
         } catch (Exception e) {
             throw new IllegalCallerException(e);
         }
