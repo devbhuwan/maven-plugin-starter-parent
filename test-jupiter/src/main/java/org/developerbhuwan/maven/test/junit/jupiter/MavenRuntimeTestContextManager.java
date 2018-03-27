@@ -1,12 +1,17 @@
 package org.developerbhuwan.maven.test.junit.jupiter;
 
+import io.takari.maven.testing.TestProperties;
 import io.takari.maven.testing.executor.MavenExecution;
 import io.takari.maven.testing.executor.MavenRuntime;
 import lombok.Getter;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
+import static io.takari.maven.testing.TestProperties.PROP_LOCAL_REPOSITORY;
 import static java.lang.System.getenv;
 import static java.util.List.of;
 import static java.util.Optional.ofNullable;
@@ -22,17 +27,32 @@ class MavenRuntimeTestContextManager {
 
     private final Mojo mojo;
 
-    private MavenRuntimeTestContextManager(@NonNull String project) {
-        final File mavenHome = new File(PathDiscovery.discover());
+    private MavenRuntimeTestContextManager(@NonNull String project) throws IllegalAccessException {
+        final File mavenHome = new File(discoverMavenHome());
+        final String localRepository = discoverMavenLocalRepository();
         if (!mavenHome.exists())
             throw new IllegalArgumentException(String.format("Please defined %s, %s environment variable or %s in system properties", MAVEN_HOME, M2_HOME, MAVEN_DOT_HOME));
+        System.out.println("----------MOJO----------------------");
+        System.out.println("Maven Home: " + mavenHome.getAbsolutePath());
+        System.out.println("Maven Local Repository: " + localRepository);
+        System.out.println("----------------------------------");
+        System.out.println();
         MavenRuntime runtime = MavenRuntime.builder(mavenHome, null).forkedBuilder().build();
+        TestProperties testProperties = new TestProperties();
+        Map<String, String> properties = new HashMap<>();
+        properties.put(PROP_LOCAL_REPOSITORY, localRepository);
+        writeField(testProperties, "properties", properties, true);
+        writeField(runtime, "properties", testProperties, true);
         MavenExecution mavenExecution = runtime.forProject(new File(project));
         this.mojo = new Mojo(mavenExecution);
     }
 
     static MavenRuntimeTestContextManager create(@NonNull String project) {
-        return new MavenRuntimeTestContextManager(project);
+        try {
+            return new MavenRuntimeTestContextManager(project);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
     }
 
     void initializeMojoContexts(Object testInstance) {
@@ -53,12 +73,16 @@ class MavenRuntimeTestContextManager {
         static final String M2_HOME = "M2_HOME";
         static final String MAVEN_DOT_HOME = "maven.home";
 
-        static String discover() {
+        static String discoverMavenHome() {
             return ofNullable(getenv(MAVEN_HOME)).orElse(tryToFindMavenHome());
         }
 
         private static String tryToFindMavenHome() {
             return ofNullable(getenv(M2_HOME)).orElse(System.getProperty(MAVEN_DOT_HOME));
+        }
+
+        static String discoverMavenLocalRepository() {
+            return getenv("HOME") + "/.m2/repository";
         }
 
     }

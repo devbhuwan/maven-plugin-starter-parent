@@ -1,4 +1,4 @@
-# The Root POM For Maven Plugin
+# The Root POM For Maven Plugin [![Build Status](https://travis-ci.org/devbhuwan/maven-plugin-starter-parent.svg?branch=master)](https://travis-ci.org/devbhuwan/maven-plugin-starter-parent)
 
 This POM is designed to be the topmost parent (root) of the pom inheritance hierarchy.
 
