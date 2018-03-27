@@ -20,5 +20,4 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target(TYPE)
 public @interface MojoJunitConfig {
 
-    // String project() default EMPTY;
 }
