@@ -3,11 +3,12 @@
     <parent>
         <artifactId>maven-plugin-starter-parent</artifactId>
         <groupId>io.github.devbhuwan</groupId>
-        <version>1.0.0.RELEASE</version>
+        <version>1.0.1BUILD-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>maven-plugin-test-jupiter</artifactId>
+  <version>1.0.0.RELEASE</version>
 
     <dependencies>
         <dependency>
@@ -27,8 +28,4 @@
             <scope>compile</scope>
         </dependency>
     </dependencies>
-
-  <scm>
-    <tag>1.0.0.RELEASE</tag>
-  </scm>
 </project>
