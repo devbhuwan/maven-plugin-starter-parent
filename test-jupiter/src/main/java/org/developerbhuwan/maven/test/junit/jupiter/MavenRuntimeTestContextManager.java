@@ -12,6 +12,7 @@ import static java.util.List.of;
 import static java.util.Optional.ofNullable;
 import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnotation;
 import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
+import static org.developerbhuwan.maven.test.junit.jupiter.MavenRuntimeTestContextManager.PathDiscovery.*;
 
 /**
  * @author Bhuwan Prasad Upadhyay
@@ -24,7 +25,7 @@ class MavenRuntimeTestContextManager {
     private MavenRuntimeTestContextManager(@NonNull String project) {
         final File mavenHome = new File(PathDiscovery.discover());
         if (!mavenHome.exists())
-            throw new IllegalArgumentException("Please defined MAVEN_HOME environment variable");
+            throw new IllegalArgumentException(String.format("Please defined %s, %s environment variable or %s in system properties", MAVEN_HOME, M2_HOME, MAVEN_DOT_HOME));
         MavenRuntime runtime = MavenRuntime.builder(mavenHome, null).forkedBuilder().build();
         MavenExecution mavenExecution = runtime.forProject(new File(project));
         this.mojo = new Mojo(mavenExecution);
@@ -46,14 +47,19 @@ class MavenRuntimeTestContextManager {
                 });
     }
 
-    private static class PathDiscovery {
+    static class PathDiscovery {
+
+        static final String MAVEN_HOME = "MAVEN_HOME";
+        static final String M2_HOME = "M2_HOME";
+        static final String MAVEN_DOT_HOME = "maven.home";
 
         static String discover() {
-            return ofNullable(getenv("MAVEN_HOME")).orElse(tryToFindMavenHome());
+            return ofNullable(getenv(MAVEN_HOME)).orElse(tryToFindMavenHome());
         }
 
         private static String tryToFindMavenHome() {
-            return "";
+            return ofNullable(getenv(M2_HOME)).orElse(System.getProperty(MAVEN_DOT_HOME));
         }
+
     }
 }
