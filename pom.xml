@@ -3,7 +3,7 @@
 
     <groupId>io.github.devbhuwan</groupId>
     <artifactId>maven-plugin-starter-parent</artifactId>
-    <version>1.0.1BUILD-SNAPSHOT</version>
+    <version>1.0.1-SNAPSHOT</version>
 
     <modules>
         <module>core</module>
