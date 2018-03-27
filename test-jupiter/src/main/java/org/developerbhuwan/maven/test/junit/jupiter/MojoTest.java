@@ -1,7 +1,6 @@
 package org.developerbhuwan.maven.test.junit.jupiter;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.Inherited;

@@ -1,6 +1,9 @@
 package org.developerbhuwan.maven.test.junit.jupiter;
 
-import org.junit.jupiter.api.extension.*;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
 
 import java.lang.reflect.Method;
 
@@ -9,7 +12,7 @@ import static org.developerbhuwan.maven.test.junit.jupiter.MavenRuntimeTestConte
 /**
  * @author Bhuwan Prasad Upadhyay
  */
-class MavenPluginExtension implements AfterEachCallback, ParameterResolver {
+class MavenPluginExtension implements ParameterResolver {
 
     @Override
     public boolean supportsParameter(ParameterContext ctx, ExtensionContext context) throws ParameterResolutionException {
@@ -19,10 +22,7 @@ class MavenPluginExtension implements AfterEachCallback, ParameterResolver {
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext context) throws ParameterResolutionException {
         Method method = context.getRequiredTestMethod();
-        return create(method.getAnnotation(MojoTest.class)).getMojo();
+        return create(method.getAnnotation(MojoTest.class).project()).getMojo();
     }
 
-    @Override
-    public void afterEach(ExtensionContext context) throws Exception {
-    }
 }

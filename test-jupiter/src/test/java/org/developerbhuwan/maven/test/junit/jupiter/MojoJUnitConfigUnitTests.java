@@ -12,4 +12,9 @@ class MojoJUnitConfigUnitTests {
                 .execute("package").assertErrorFreeLog();
     }
 
+    @MojoTest(project = "src/projects/mojo-junit-2")
+    void buildSuccessUsingClassLevelMojo(Mojo mojo) throws Exception {
+        mojo.begin().execute("verify").assertErrorFreeLog();
+    }
+
 }
