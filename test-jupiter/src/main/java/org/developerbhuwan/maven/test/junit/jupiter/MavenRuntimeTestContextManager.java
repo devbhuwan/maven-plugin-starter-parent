@@ -6,12 +6,6 @@ import lombok.Getter;
 import lombok.NonNull;
 
 import java.io.File;
-import java.lang.reflect.Method;
-import java.util.Optional;
-
-import static java.util.List.of;
-import static org.apache.commons.lang3.reflect.FieldUtils.getFieldsListWithAnnotation;
-import static org.apache.commons.lang3.reflect.FieldUtils.writeField;
 
 /**
  * @author Bhuwan Prasad Upadhyay
@@ -31,28 +25,9 @@ class MavenRuntimeTestContextManager {
         this.mojo = new Mojo(execution);
     }
 
-    static MavenRuntimeTestContextManager create(Class<?> testInstanceClass) {
+    static MavenRuntimeTestContextManager create(@NonNull MojoTest config) {
         MavenRuntime runtime = MavenRuntime.builder(MAVEN_HOME, null).forkedBuilder().build();
-        MojoJUnitConfig config = testInstanceClass.getDeclaredAnnotation(MojoJUnitConfig.class);
         return new MavenRuntimeTestContextManager(runtime.forProject(new File(config.project())));
     }
 
-    void initializeMojoContexts(Object testInstance) {
-        Optional.ofNullable(getFieldsListWithAnnotation(testInstance.getClass(), MojoContext.class))
-                .orElse(of())
-                .forEach(field -> {
-                    try {
-                        writeField(field, testInstance, getMojo(), true);
-                    } catch (IllegalAccessException e) {
-                        throw new IllegalCallerException(e);
-                    }
-                });
-    }
-
-    void afterTestClass() {
-    }
-
-    void afterTestMethod(Object testInstance, Method testMethod, Throwable testException) {
-
-    }
 }

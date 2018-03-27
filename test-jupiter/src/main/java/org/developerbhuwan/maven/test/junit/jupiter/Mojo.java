@@ -10,16 +10,11 @@ public class Mojo {
 
     private final MavenExecution exec;
 
-    public Mojo(@NonNull MavenExecution exec) {
+    Mojo(@NonNull MavenExecution exec) {
         this.exec = exec;
     }
 
-    public ExecuteResult execute(String goal) {
-        try {
-            return new ExecuteResult(exec.execute(goal));
-        } catch (Exception e) {
-            throw new IllegalCallerException(e);
-        }
+    public MavenExecution begin() {
+        return exec;
     }
-
 }

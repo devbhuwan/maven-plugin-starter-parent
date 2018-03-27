@@ -9,7 +9,6 @@ import java.lang.annotation.Target;
 
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
-import static org.apache.commons.lang3.StringUtils.EMPTY;
 
 /**
  * @author Bhuwan Prasad Upadhyay
@@ -19,8 +18,5 @@ import static org.apache.commons.lang3.StringUtils.EMPTY;
 @Inherited
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface MojoJUnitConfig {
-
-    String project() default EMPTY;
-
+public @interface MojoJunitConfig {
 }
