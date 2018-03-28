@@ -9,7 +9,7 @@ maven:
   version: 3.5.2
 deploy:
   provider: script
-  script: mvn deploy -P build-extras,release -settings cd/mvnsettings.xml  skip_cleanup: true
+  script: mvn deploy -P build-extras,release --settings cd/mvnsettings.xml
 #  on:
 #    tags: true
 env:
