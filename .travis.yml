@@ -12,6 +12,7 @@ deploy:
   script: cp cd/mvnsettings.xml $HOME/.m2/settings.xml && mvn deploy -P build-extras,release  skip_cleanup: true
 #  on:
 #    tags: true
+
 env:
   global:
     - secure: "H9QkLqCOSbS9GyPqBRQUeAdyOWdBwA6Lra1JgW/OgPlTlfXNHD1+BSNMMBAg1nSvbSpdJRW5JzAOZUXoJOBMIXvEfcsgPvwK497FYce139d21/3t2dQcWnSM0y1ZDN1M37r1arYSakTS+5Tgxvcg9cjWl2B9Y4G35dBSDNGfHW1BEpyeaf8qn5az+HALjDI+d5CoOPIiTtv9xGv0JS21Lgr6ncrko1pVSo4P0MXo3iFGmZjKUtQFeafVLW+pk+eRKa5a7o7O5/OzAz5gV+sp64gqDlfBaLR0b0epN0Z5+JkrfQiCFhiniS8bVVnhotZOPg7RLwMeyy24wM+WMm5YGEYWV5fn6kM8IseXZSW4ukFBTYBXwFzKRsQrOTQyEHrFOwtUizsC+YXMmdfv1BMx0OiSxPXKblvJ1pzV536QNqAsrkWGnf6+JDS1tyvpKTqD/vse9nfgsa5sdIcyC8VSXvbhaazdGKcWP0x2wTzJSf0MZ3v8VUMQK4J7XR0DOTZZ1TaI6KAX1UrV+EAa4Ul0Ui+UGe8dpWtMaH77vtowf0b/weX2f6PPSbEfynWcMmKax+aezZxp0FEvv5sLedMriJ4eMfBv0m0hjF+NgWwpCPchhiLCFGWIY5aJMFzltxLueNnXv2euY9gBqDFiN0j4NrMQYqmV3NOB5GEefiYlkcQ="
