@@ -1,0 +1,32 @@
+= Maven Plugin Starter
+Bhuwan Prasad Upadhyay
+:revnumber: {version}
+:revdate: {localdate}
+:sectanchors:
+:sectlinks:
+:sectnumlevels: 4
+:toc: macro
+:toclevels: 3
+:toc-title: maven-plugin-starter
+:doctype: book
+:icons: font
+:docinfo1:
+:plugindir: {plugindir}
+:imagesdir: images
+:numbered:
+
+ifndef::ebook-format[:leveloffset: 1]
+
+*Copyright © 2018 DeveloperBhuwan* +
+*Version: {version}*
+
+image:favicon.ico[developerbhuwan]
+
+ifdef::basebackend-html[toc::[]]
+
+include::manual/introduction.adoc[]
+include::manual/installation.adoc[]
+include::manual/concepts.adoc[]
+
+include::manual/samples.adoc[]
+include::manual/links.adoc[]

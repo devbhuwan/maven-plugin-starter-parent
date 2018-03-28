@@ -9,6 +9,7 @@
     <modules>
         <module>core</module>
         <module>test-jupiter</module>
+        <module>docs</module>
     </modules>
 
     <packaging>pom</packaging>

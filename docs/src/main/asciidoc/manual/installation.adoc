@@ -1,0 +1,83 @@
+[[installation]]
+= Installation
+
+You can use starter as a parent of your new maven plugin.
+
+[[maven]]
+== Build with Maven
+
+You can use the simulator in your Maven project. Maven will automatically download all required dependencies and project artifacts for you. The simulator is then executable
+as a web archive representing the the latest simulator distribution.
+
+See the following sample Maven project POM file that defines the project sources as Spring boot application.
+
+[source,xml]
+----
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+      <groupId>io.github.devbhuwan</groupId>
+      <artifactId>maven-plugin-starter-parent</artifactId>
+      <version>1.0.0.RELEASE</version>
+  </parent>
+
+  <groupId>com.example</groupId>
+  <artifactId>example-sample</artifactId>
+  <version>1.0.0</version>
+
+  <dependencies>
+    <dependency>
+        <groupId>io.github.devbhuwan</groupId>
+        <artifactId>maven-plugin-core</artifactId>
+        <version>1.0.0.RELEASE</version>
+    </dependency>
+
+    <dependency>
+        <groupId>io.github.devbhuwan</groupId>
+        <artifactId>maven-plugin-test-jupiter</artifactId>
+        <version>1.0.0.RELEASE</version>
+        <scope>test</scope>
+    </dependency>
+  </dependencies>
+
+</project>
+----
+
+The above Maven pom file will setup the maven plugin development needed dependencies for you.
+We are now finished with the build setup and we are ready to build and run the maven plugin.
+
+Before we do that let's add a mojo class to our project.
+
+.src/main/java/com/example/MyPluginMojo.java
+[source,java]
+----
+package com.example;
+
+public class MyPluginMojo {
+
+}
+----
+
+Also we add a test class of that mojo plugin.
+
+.src/test/java/com/example/MyPluginMojo.java
+[source,java]
+----
+package com.example;
+
+public class MyPluginMojoTests {
+
+}
+----
+
+
+You can now build and run the mojo test with Maven from a command line. Use following commands:
+
+.Maven build
+[source,bash]
+----
+mvn clean verify
+----
