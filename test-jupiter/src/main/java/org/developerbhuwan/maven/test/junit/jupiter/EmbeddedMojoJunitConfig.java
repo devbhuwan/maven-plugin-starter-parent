@@ -13,11 +13,11 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 /**
  * @author Bhuwan Prasad Upadhyay
  */
-@ExtendWith(MojoExtension.class)
+@ExtendWith(EmbeddedMojoExtension.class)
 @Documented
 @Inherited
 @Retention(RUNTIME)
 @Target(TYPE)
-public @interface MojoJunitConfig {
+public @interface EmbeddedMojoJunitConfig {
 
-}
+}  

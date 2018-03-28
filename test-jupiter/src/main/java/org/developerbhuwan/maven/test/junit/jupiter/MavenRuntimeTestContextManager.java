@@ -8,8 +8,12 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
+import java.lang.annotation.Annotation;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static io.takari.maven.testing.TestProperties.PROP_LOCAL_REPOSITORY;
 import static java.lang.System.getenv;
@@ -25,34 +29,55 @@ import static org.developerbhuwan.maven.test.junit.jupiter.MavenRuntimeTestConte
 @Getter
 class MavenRuntimeTestContextManager {
 
+    private static final Map<Class<? extends Annotation>, Function<File, MavenRuntime>> FACTORIES = new LinkedHashMap<>();
+
+    static {
+        FACTORIES.put(MojoJunitConfig.class, (mavenHome) -> MavenRuntime.builder(mavenHome, null).forkedBuilder().build());
+        FACTORIES.put(EmbeddedMojoJunitConfig.class, (mavenHome) -> {
+            try {
+                return MavenRuntime.builder(mavenHome, null).build();
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e);
+            }
+        });
+    }
+
     private final Mojo mojo;
 
-    private MavenRuntimeTestContextManager(@NonNull String project) throws IllegalAccessException {
+    private MavenRuntimeTestContextManager(@NonNull String project, @NonNull Class<? extends Annotation> junitConfigClass) throws IllegalAccessException {
         final File mavenHome = new File(discoverMavenHome());
         final String localRepository = discoverMavenLocalRepository();
         if (!mavenHome.exists())
             throw new IllegalArgumentException(String.format("Please defined %s, %s environment variable or %s in system properties", MAVEN_HOME, M2_HOME, MAVEN_DOT_HOME));
-        System.out.println("----------MOJO----------------------");
-        System.out.println("Maven Home: " + mavenHome.getAbsolutePath());
-        System.out.println("Maven Local Repository: " + localRepository);
-        System.out.println("----------------------------------");
-        System.out.println();
-        MavenRuntime runtime = MavenRuntime.builder(mavenHome, null).forkedBuilder().build();
+        logs(mavenHome, localRepository);
+        MavenRuntime runtime = FACTORIES.get(junitConfigClass).apply(mavenHome);
+        injectProperties(localRepository, runtime);
+        MavenExecution mavenExecution = runtime.forProject(new File(project));
+        this.mojo = new Mojo(mavenExecution);
+    }
+
+    static MavenRuntimeTestContextManager create(@NonNull String project, @NonNull Class<? extends Annotation> junitConfigClass) {
+        try {
+            return new MavenRuntimeTestContextManager(project, junitConfigClass);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    private void injectProperties(String localRepository, MavenRuntime runtime) throws IllegalAccessException {
         TestProperties testProperties = new TestProperties();
         Map<String, String> properties = new HashMap<>();
         properties.put(PROP_LOCAL_REPOSITORY, localRepository);
         writeField(testProperties, "properties", properties, true);
         writeField(runtime, "properties", testProperties, true);
-        MavenExecution mavenExecution = runtime.forProject(new File(project));
-        this.mojo = new Mojo(mavenExecution);
     }
 
-    static MavenRuntimeTestContextManager create(@NonNull String project) {
-        try {
-            return new MavenRuntimeTestContextManager(project);
-        } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException(e);
-        }
+    private void logs(File mavenHome, String localRepository) {
+        System.out.println("---------------------MOJO---------------------------");
+        System.out.println("Maven Home: " + mavenHome.getAbsolutePath());
+        System.out.println("Maven Local Repository: " + localRepository);
+        System.out.println("----------------------------------------------------");
+        System.out.println();
     }
 
     void initializeMojoContexts(Object testInstance) {

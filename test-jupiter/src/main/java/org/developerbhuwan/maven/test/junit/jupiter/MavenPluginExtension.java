@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ParameterContext;
 import org.junit.jupiter.api.extension.ParameterResolutionException;
 import org.junit.jupiter.api.extension.ParameterResolver;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 
 import static org.developerbhuwan.maven.test.junit.jupiter.MavenRuntimeTestContextManager.create;
@@ -12,7 +13,13 @@ import static org.developerbhuwan.maven.test.junit.jupiter.MavenRuntimeTestConte
 /**
  * @author Bhuwan Prasad Upadhyay
  */
-class MavenPluginExtension implements ParameterResolver {
+abstract class MavenPluginExtension implements ParameterResolver {
+
+    private final Class<? extends Annotation> clazz;
+
+    MavenPluginExtension(Class<? extends Annotation> clazz) {
+        this.clazz = clazz;
+    }
 
     @Override
     public boolean supportsParameter(ParameterContext ctx, ExtensionContext context) throws ParameterResolutionException {
@@ -22,7 +29,7 @@ class MavenPluginExtension implements ParameterResolver {
     @Override
     public Object resolveParameter(ParameterContext parameterContext, ExtensionContext context) throws ParameterResolutionException {
         Method method = context.getRequiredTestMethod();
-        return create(method.getAnnotation(MojoTest.class).project()).getMojo();
+        return create(method.getAnnotation(MojoTest.class).project(), clazz).getMojo();
     }
 
 }
